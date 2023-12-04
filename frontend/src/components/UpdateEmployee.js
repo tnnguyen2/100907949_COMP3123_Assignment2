@@ -120,18 +120,21 @@ const styles = {
         margin: 'auto',
         padding: '20px',
         borderRadius: '8px',
-        backgroundColor: '#f9f9f9',
-        alignItems : 'center',
+        border: '2px solid #ccc',
+        backgroundColor: '#f8f8f8',
+        display: 'flex',
+        flexDirection: 'column',
+        marginTop: '30vh',
     },
     form: {
         display: 'flex',
         flexDirection: 'column',
     },
     label: {
-        margin: '10px auto',
+        margin: '5px auto',
         display: 'flex',
-
-
+        flexDirection: 'column',
+        width: '25%',
     },
     select: {
         width: '100%',
