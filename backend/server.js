@@ -2,15 +2,20 @@ const express = require('express');
 const employeeRoutes = require("./routes/employeeRoute")
 const userRoutes = require("./routes/userRoute")
 const mongoose = require('mongoose');
+const cors = require('cors')
 
 const SERVER_PORT = 3001
 
 const DB_URL = "mongodb+srv://tdotnguyen:JA5Dkz4KLhZMBsTC@cluster0.hgh3k7b.mongodb.net/F2023_COMP3123-Assignment1?retryWrites=true&w=majority"
 const app = express()
 const apiV1 = express()
+const corsOptions = {
+    origin: 'http://localhost:3000',
+    optionsSuccessStatus: 200
+}
 app.use(express.json())
 app.use(express.urlencoded())
-
+app.use(cors(corsOptions))
 
 app.use("/api/v1/",apiV1)
 apiV1.use("/user", userRoutes)

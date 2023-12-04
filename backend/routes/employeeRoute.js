@@ -13,14 +13,14 @@ employeeRoutes.get("/employees", async (req, res) => {
     }
 })
 
-employeeRoutes.post('/employees', async (req, res) => {
+employeeRoutes.post('/employees/add', async (req, res) => {
     const {email} = req.body
     //Creates new employee
     try {
         const existingUser = await employeeModel.findOne({ email });
 
         if (existingUser) {
-            // If username exists, send a message indicating it's already taken
+            // If email exists, send a message indicating it's already taken
             return res.status(400).json({ message: 'Email is already in use' });
         }
         const newEmployee = new employeeModel({
@@ -41,7 +41,7 @@ employeeRoutes.get("/employees/:empid", async (req, res) => {
         res.status(500).json(error)
     }
 })
-employeeRoutes.put('/employees/:empid', async (req, res) => {
+employeeRoutes.put('/employees/update/:empid', async (req, res) => {
     //Update employee
     try {
         const updatedEmp = await employeeModel.findByIdAndUpdate({_id: req.params.empid}, req.body)
@@ -55,7 +55,7 @@ employeeRoutes.put('/employees/:empid', async (req, res) => {
     }
 });
 
-employeeRoutes.delete('/employees/:empid', async (req, res) => {
+employeeRoutes.delete('/employees/delete/:empid', async (req, res) => {
     //Delete employee
     try {
         const emp = await employeeModel.findOneAndDelete({_id: req.params.empid})

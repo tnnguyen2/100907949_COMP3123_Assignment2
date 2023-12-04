@@ -4,22 +4,30 @@ const userModel = require('../models/userModel')
 let userRoutes = express.Router()
 
 userRoutes.post('/signup', async (req, res) => {
-    const{ username } = req.body
-    //Create new user
+    const { username, email, password } = req.body;
     try {
-        const existingUser = await userModel.findOne({ username });
+        const existingUser = await userModel.findOne({ username: username });
+        const existingEmail = await userModel.findOne({ email: email });
 
-        if (existingUser) {
-            // If username exists, send a message indicating it's already taken
+        if (existingUser && existingEmail) {
+            return res.status(400).json({message: 'Username and Email are already taken'});
+        }else if (existingUser) {
             return res.status(400).json({ message: 'Username is already taken' });
+        } else if (existingEmail) {
+            return res.status(400).json({ message: 'Email is already taken' });
         }
+
         const newUser = new userModel({
-            ...req.body
+            username,
+            email,
+            password
         });
-        await newUser.save()
-        res.status(201).json(newUser)
+
+        await newUser.save();
+        return res.status(201).json(newUser);
     } catch (error) {
-        res.status(500).send({message: "User info can not be empty"})
+        console.error('Error during signup:', error);
+        res.status(500).send({ message: "Please enter credentials" });
     }
 });
 userRoutes.post('/login', async (req, res) => {
